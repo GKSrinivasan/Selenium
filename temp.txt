@@ -1,0 +1,80 @@
+using Laserbeam.QA.Automation.HR.Common.Pages;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Chrome;
+
+namespace Laserbeam.QA.Automation.HR.Common
+{
+    public class Initialize
+    {
+        #region Fields
+        static IWebDriver browser;
+        #endregion
+
+        #region Constructor
+        public Initialize()
+        {
+            browser = new ChromeDriver(@"C:\\chromedriver_win32");
+            browser.Manage().Window.Maximize();
+        }
+        #endregion
+
+        #region Property
+        public LoginPage loginPage
+        {
+            get { return new LoginPage(browser); }
+        }
+        #endregion
+
+        //[TestMethod]
+        //public void Login()
+        //{
+        //    string userName= "compass.support@laserbm.net";
+        //    string password="1234";            
+        //    browser.Navigate().GoToUrl("http://192.168.1.117/SIT/Compass/Lite/Umadevi");
+        //    browser.FindElement(By.Id("UserID")).SendKeys(userName);
+        //    browser.FindElement(By.Id("UserPassword")).SendKeys(password);
+        //    browser.FindElement(By.TagName("button")).SendKeys(Keys.Enter);
+        //    Thread.Sleep(3000);            
+        //    var actualUrl = browser.Url;
+        //    var expectedUrl = "http://192.168.1.117/SIT/Compass/Lite/Umadevi/Dashboard/DashboardView";
+        //    Assert.AreEqual(expectedUrl, actualUrl);
+        //    NavigateToRewards(browser);
+        //}
+
+        //public void NavigateToRewards(IWebDriver browser)
+        //{
+        //    browser.FindElement(By.ClassName("rewardstoggle")).SendKeys(Keys.Enter);
+        //    Thread.Sleep(3000);
+        //    browser.FindElement(By.ClassName("menurewardicon")).Click();
+        //    Thread.Sleep(3000);
+        //    var actualUrl = browser.Url;
+        //    var expectedUrl = "http://192.168.1.117/SIT/Compass/Lite/Umadevi/Compensation/Home";
+        //    Assert.AreEqual(expectedUrl, actualUrl);
+        //    Thread.Sleep(3000);
+        //    browser.FindElement(By.XPath("//label[text()='My Organization Budget']")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.ClassName("k-input")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElements(By.XPath("//li[text()='EUR']"))[1].Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.Id("lnkEmployeeName")).Click();
+        //    Thread.Sleep(3000);
+        //    browser.FindElement(By.ClassName("employeeclose")).FindElement(By.ClassName("close")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.Id("filter")).Click();
+        //    Thread.Sleep(2000);
+        //    browser.FindElements(By.XPath("//span[text()='select']"))[2].Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.XPath("//li[text()='Employee ID']")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElements(By.XPath("//span[text()='select']"))[3].Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.XPath("//li[text()='Sort Ascending']")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.Id("btnAddToList")).Click();
+        //    Thread.Sleep(1000);
+        //    browser.FindElement(By.Id("btnApply")).Click(); 
+
+        //}
+    }
+}

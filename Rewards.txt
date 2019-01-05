@@ -1,0 +1,117 @@
+using Laserbeam.QA.Automation.HR.Common;
+using Laserbeam.QA.Automation.HR.Common.Resources;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
+using OpenQA.Selenium;
+using System;
+using System.IO;
+
+namespace Laserbeam.QA.Automation.HR.TestCase.TestCase.Rewards
+{
+    [TestClass]
+    public class Rewards:BaseClass
+    {
+        [TestMethod]
+        public void TestMethod1()
+        {
+            string message = string.Format("Time: {0}", DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt"));
+            message += Environment.NewLine;
+            message += "-----------------------------------------------------------";
+
+            base.LaunchCompassLogin("Chrome", LoginResource.LoginURL);
+            var actualDashboardURL = base.Pages.LoginPage.Login(LoginResource.EmailID, LoginResource.Password);
+            if (actualDashboardURL == LoginResource.LoginURL+ "/Dashboard/DashboardView")
+                message += Environment.NewLine+ "Click on Login: " + "Pass";
+            else
+                message += Environment.NewLine + "Click on Login: " + "Fail";
+
+            IWebElement ruleElement = base.Pages.DashboardPage.ClickAdministrationLink();
+            if (ruleElement != null)
+                message += Environment.NewLine + "Click on Administration in the menu: " + "Pass";
+            else
+                message += Environment.NewLine + "Click on Administration in the menu: " + "Fail";
+
+            var actualRuleURL = base.Pages.DashboardPage.ClickRulesTile();
+            if (actualRuleURL == LoginResource.LoginURL + "/ManageRules/Home")
+                message += Environment.NewLine + "Ensure Compensation Components screen is displayed: " + "Pass";
+            else
+                message += "$nbsp;" + "Ensure Compensation Components screen is displayed: " + "Fail";
+
+            var isMeritEnable = base.Pages.RulePage.IsMeritChecked();
+            if (isMeritEnable == null)
+                base.Pages.RulePage.ClickMeritTile();            
+
+            var isPerformanceRatingEnable = base.Pages.RulePage.IsPerformanceRatingChecked();
+            if (isPerformanceRatingEnable != null)
+                base.Pages.RulePage.ClickPerformanceRatingTile();
+            var isLumpSumEnable = base.Pages.RulePage.IsLumpSumChecked();
+            if (isLumpSumEnable != null)
+                base.Pages.RulePage.ClickLumpSumTile();
+            var isPromotionEnable = base.Pages.RulePage.IsPromotionChecked();
+            if (isPromotionEnable != null)
+                base.Pages.RulePage.ClickPromotionTile();
+            var isAdjustmentEnable = base.Pages.RulePage.IsAdjustmentChecked();
+            if (isAdjustmentEnable != null)
+                base.Pages.RulePage.ClickAdjustmentTile();
+            var isWorkflowEnable = base.Pages.RulePage.IsWorkFlowChecked();
+            if (isWorkflowEnable != null)
+                base.Pages.RulePage.ClickWorkflowTile();
+            var isMultiCurrencyEnable = base.Pages.RulePage.IsMultiCurrencyChecked();
+            if (isMultiCurrencyEnable != null)
+                base.Pages.RulePage.ClickMultiCurrencyTile();
+
+            if (base.Pages.RulePage.IsMeritChecked() != null)
+                message += Environment.NewLine + "Ensure Merit tile is selected: " + "Pass";
+            else
+                message += Environment.NewLine + "Ensure Merit tile is selected: " + "Fail";
+            if (base.Pages.RulePage.IsPerformanceRatingChecked() == null)
+                message += Environment.NewLine + "Deselect Performance Rating: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Performance Rating: " + "Fail";
+            if (base.Pages.RulePage.IsLumpSumChecked() == null)
+                message += Environment.NewLine + "Deselect Lump Sum: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Lump Sum: " + "Fail";
+            if (base.Pages.RulePage.IsPromotionChecked() == null)
+                message += Environment.NewLine + "Deselect Promotion: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Promotion: " + "Fail";
+            if (base.Pages.RulePage.IsAdjustmentChecked() == null)
+                message += Environment.NewLine + "Deselect Adjustment: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Adjustment: " + "Fail";
+            if (base.Pages.RulePage.IsWorkFlowChecked() == null)
+                message += Environment.NewLine + "Deselect Workflow: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Workflow: " + "Fail";
+            if (base.Pages.RulePage.IsMultiCurrencyChecked() == null)
+                message += Environment.NewLine + "Deselect Multicurrency: " + "Pass";
+            else
+                message += Environment.NewLine + "Deselect Multicurrency: " + "Fail";
+
+            var actualMessage = base.Pages.RulePage.ClickSaveButton();
+            if (actualMessage == "Rules applied successfully")
+                message += Environment.NewLine + "Click on Save: " + "Pass";
+            else
+                message += Environment.NewLine + "Click on Save: " + "Fail";
+
+            message += Environment.NewLine;
+            message += "-----------------------------------------------------------";
+            message += Environment.NewLine;
+
+            base.Pages.SendEmail.SendMail(message, "MeritOnly Automation Test Results");
+            LogTestResult(message);
+            base.BaseCleanUp();
+        }
+
+        private void LogTestResult(string message)
+        {
+            string serverPath = System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            string filePath = serverPath.Split(new[] { "bin" }, StringSplitOptions.None)[0] + "TestResults\\Rules\\Results.txt";
+            using (StreamWriter writer = new StreamWriter(filePath, true))
+            {
+                writer.WriteLine(message);
+                writer.Close();
+            }
+        }
+    }
+}
